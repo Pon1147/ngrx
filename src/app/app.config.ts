@@ -1,18 +1,22 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-import { provideStore, provideState } from '@ngrx/store';
+import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
-import { todoFeature, TodoEffects } from './store/todo.store';
-import { TodoComponent } from './feat/components/todo/todo.component';
+import { TodoDetailComponent } from './feat/components/todo/todo-detail.component';
+import {
+  todoDetailFeatureKey,
+  todoDetailReducer,
+} from './store/todo/todo-detail/todo-detail.reducer';
+import { TodoDetailEffects } from './store/todo/todo-detail/todo-detail.effects';
 
 // Cấu hình ứng dụng standalone
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter([{ path: '', component: TodoComponent }]),
+    provideRouter([{ path: '', component: TodoDetailComponent }]),
     provideHttpClient(),
     provideStore(),
-    provideState(todoFeature),
-    provideEffects([TodoEffects]),
+    provideStore({ [todoDetailFeatureKey]: todoDetailReducer }),
+    provideEffects([TodoDetailEffects]),
   ],
 };

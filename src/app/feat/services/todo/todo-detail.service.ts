@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Todo } from '../../store/todo.store';
+import { TodoDetail } from '../../model/todo/todo-detail.model';
 
 // Cung cấp service để gọi API
 export class TodoService {
@@ -9,7 +9,7 @@ export class TodoService {
   private http = inject(HttpClient);
 
   // Lấy dữ liệu todo
-  getTodo(): Observable<Todo> {
-    return this.http.get<Todo>(this.apiUrl);
+  getTodo(): Observable<TodoDetail> {
+    return this.http.get<TodoDetail>(this.apiUrl);
   }
 }
