@@ -1,0 +1,21 @@
+<div class="container">
+  <h1>Danh sách Todo</h1>
+  <div class="input-group">
+    <input type="text" [(ngModel)]="newTodoTitle" placeholder="Tiêu đề Todo" />
+    <button (click)="onCreateTodo()">Thêm Todo</button>
+  </div>
+  @if (loading$ | async) {
+    <p>Đang tải...</p>
+  }
+  @if (error$ | async; as error) {
+    <p>Lỗi: {{ error }}</p>
+  }
+  <ul>
+    @for (todo of todos$ | async; track todo.id) {
+      <li>
+        <a [routerLink]="['/todo', todo.id]">{{ todo.title }}</a>
+        <button (click)="onDeleteTodo(todo.id)">Xóa</button>
+      </li>
+    }
+  </ul>
+</div>

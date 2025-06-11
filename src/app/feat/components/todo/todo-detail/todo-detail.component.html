@@ -1,0 +1,24 @@
+<div class="container">
+  <h1>Chi tiết Todo</h1>
+  @if (loading$ | async) {
+    <p>Đang tải...</p>
+  }
+  @if (error$ | async; as error) {
+    <p>Lỗi: {{ error }}</p>
+  }
+  @if (todo$ | async; as todo) {
+    <div class="form-group">
+      <label>
+        Tiêu đề:
+        <input type="text" [(ngModel)]="todo.title" />
+      </label>
+      <label>
+        Nội dung:
+        <input type="text" [(ngModel)]="todo.body" />
+      </label>
+      <label> <input type="checkbox" [(ngModel)]="todo.completed" /> Hoàn thành </label>
+      <button (click)="onUpdateTodo(todo)">Cập nhật</button>
+    </div>
+  }
+  <a [routerLink]="['/todos']">Quay lại</a>
+</div>
