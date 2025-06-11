@@ -6,18 +6,18 @@
   @if (error$ | async; as error) {
     <p>Lỗi: {{ error }}</p>
   }
-  @if (todo$ | async; as todo) {
+  @if (editableTodo) {
     <div class="form-group">
       <label>
         Tiêu đề:
-        <input type="text" [(ngModel)]="todo.title" />
+        <input type="text" [(ngModel)]="editableTodo.title" />
       </label>
       <label>
         Nội dung:
-        <input type="text" [(ngModel)]="todo.body" />
+        <input type="text" [(ngModel)]="editableTodo.body" />
       </label>
-      <label> <input type="checkbox" [(ngModel)]="todo.completed" /> Hoàn thành </label>
-      <button (click)="onUpdateTodo(todo)">Cập nhật</button>
+      <label> <input type="checkbox" [(ngModel)]="editableTodo.completed" /> Hoàn thành </label>
+      <button (click)="onSaveTodo()">Cập nhật</button>
     </div>
   }
   <a [routerLink]="['/todos']">Quay lại</a>

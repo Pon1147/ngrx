@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import * as PostsActions from './posts.actions';
+import { Todo } from '../../feat/model/todos/todo.model';
 import { ApiService } from '../../feat/services/todo/todo-detail.service';
 
 @Injectable()
@@ -16,7 +17,11 @@ export class TodoEffects {
       ofType(PostsActions.loadTodos),
       mergeMap(() =>
         this.apiService.getPosts().pipe(
-          map(todos => PostsActions.loadTodosSuccess({ todos })),
+          map(posts =>
+            PostsActions.loadTodosSuccess({
+              todos: posts.map(post => ({ ...post, completed: false }) as Todo),
+            }),
+          ),
           catchError(error => of(PostsActions.loadTodosFailure({ error: error.message }))),
         ),
       ),
@@ -29,7 +34,11 @@ export class TodoEffects {
       ofType(PostsActions.loadTodo),
       mergeMap(({ id }) =>
         this.apiService.getPost(id).pipe(
-          map(todo => PostsActions.loadTodoSuccess({ todo })),
+          map(post =>
+            PostsActions.loadTodoSuccess({
+              todo: { ...post, completed: false } as Todo,
+            }),
+          ),
           catchError(error => of(PostsActions.loadTodoFailure({ error: error.message }))),
         ),
       ),
@@ -42,7 +51,11 @@ export class TodoEffects {
       ofType(PostsActions.createTodo),
       mergeMap(({ todo }) =>
         this.apiService.createPost(todo).pipe(
-          map(newTodo => PostsActions.createTodoSuccess({ todo: newTodo })),
+          map(newTodo =>
+            PostsActions.createTodoSuccess({
+              todo: { ...newTodo, completed: todo.completed ?? false } as Todo,
+            }),
+          ),
           catchError(error => of(PostsActions.createTodoFailure({ error: error.message }))),
         ),
       ),
@@ -55,7 +68,11 @@ export class TodoEffects {
       ofType(PostsActions.updateTodo),
       mergeMap(({ id, todo }) =>
         this.apiService.updatePost(id, todo).pipe(
-          map(updatedTodo => PostsActions.updateTodoSuccess({ todo: updatedTodo })),
+          map(updatedTodo =>
+            PostsActions.updateTodoSuccess({
+              todo: { ...updatedTodo, completed: todo.completed } as Todo,
+            }),
+          ),
           catchError(error => of(PostsActions.updateTodoFailure({ error: error.message }))),
         ),
       ),

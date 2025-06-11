@@ -19,7 +19,7 @@ export class TodoListComponent {
   todos$: Observable<Todo[]> = this.store.select(selectAllTodos);
   loading$: Observable<boolean> = this.store.select(selectLoading);
   error$: Observable<string | null> = this.store.select(selectError);
-  newTodoTitle: string = '';
+  newTodoTitle!: string;
 
   // Khởi tạo dữ liệu ban đầu
   ngOnInit(): void {
